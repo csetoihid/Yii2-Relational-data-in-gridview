@@ -1,0 +1,17 @@
+<?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+            'label' => Yii::t('stu', 'Course'),
+            'attribute' => 'course_id',
+            'value' => function($model){ //return $model->course_id ;
+               $val =  app\modules\course\models\Courses::find()->where(['course_id' => $model->course_id])->asArray()->one();
+               return $val['course_name'];
+            },
+            'filter' => ArrayHelper::map(app\modules\course\models\Courses::find()->where(['is_status' => 0])->all(), 'course_id', 'course_name')
+            ]
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
